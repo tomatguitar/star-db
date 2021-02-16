@@ -14,6 +14,7 @@ class SwapiService {
 
   async getAllPeople() {
     const res = await this.getResource(`/people/`);
+    console.log(res.results);
     return res.results.map(this._transformPerson);
   }
 
@@ -76,8 +77,8 @@ class SwapiService {
       id: this._extractId(person),
       personName: person.name,
       gender: person.gender,
-      birthYear: person.birthYear,
-      eyeColor: person.eyeColor,
+      birthYear: person.birth_year,
+      eyeColor: person.eye_color,
     };
   };
 }
