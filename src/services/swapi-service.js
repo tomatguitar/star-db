@@ -1,6 +1,7 @@
 class SwapiService {
   constructor() {
     this._apiBase = 'http://swapi.dev/api';
+    this._imageBase = 'https://starwars-visualguide.com/assets/img';
   }
   async getResource(url) {
     const res = await fetch(`${this._apiBase}${url}`);
@@ -12,36 +13,47 @@ class SwapiService {
     return await res.json();
   }
 
-  async getAllPeople() {
+  getAllPeople = async () => {
     const res = await this.getResource(`/people/`);
-    console.log(res.results);
     return res.results.map(this._transformPerson);
-  }
+  };
 
-  async getPerson(id) {
+  getPerson = async (id) => {
     const person = await this.getResource(`/people/${id}/`);
     return this._transformPerson(person);
-  }
+  };
 
-  async getAllPlanets() {
+  getAllPlanets = async () => {
     const res = await this.getResource(`/planets/`);
     return res.results.map(this._transformPlanet);
-  }
+  };
 
-  async getPlanet(id) {
+  getPlanet = async (id) => {
     const planet = await this.getResource(`/planets/${id}/`);
     return this._transformPlanet(planet);
-  }
+  };
 
-  async getAllStarships() {
+  getAllStarships = async () => {
     const res = await this.getResource(`/starships/`);
     return res.results.map(this._transformStarship);
-  }
+  };
 
-  async getStarship(id) {
+  getStarship = async (id) => {
     const starship = await this.getResource(`/starships/${id}/`);
-    return this._transformStarhip(starship);
-  }
+    return this._transformStarship(starship);
+  };
+
+  getPersonImage = ({ id }) => {
+    return `${this._imageBase}/characters/${id}.jpg`;
+  };
+
+  getStarshipImage = ({ id }) => {
+    return `${this._imageBase}/starships/${id}.jpg`;
+  };
+
+  getPlanetImage = ({ id }) => {
+    return `${this._imageBase}/planets/${id}.jpg`;
+  };
 
   _extractId(item) {
     const idRegExp = /\/([0-9]*)\/$/;
@@ -51,31 +63,31 @@ class SwapiService {
   _transformPlanet = (planet) => {
     return {
       id: this._extractId(planet),
-      planetName: planet.name,
+      name: planet.name,
       population: planet.population,
       rotationPeriod: planet.rotation_period,
       diameter: planet.diameter,
     };
   };
 
-  _transformStarship = (starhip) => {
+  _transformStarship = (starship) => {
     return {
-      id: this._extractId(starhip),
-      starshipName: starhip.name,
-      model: starhip.model,
-      manufacturer: starhip.manufacturer,
-      costInCredits: starhip.costInCredits,
-      length: starhip.length,
-      crew: starhip.crew,
-      passengers: starhip.passengers,
-      cargoCapicity: starhip.cargoCapicity,
+      id: this._extractId(starship),
+      name: starship.name,
+      model: starship.model,
+      manufacturer: starship.manufacturer,
+      costInCredits: starship.cost_in_credits,
+      length: starship.length,
+      crew: starship.crew,
+      passengers: starship.passengers,
+      cargoCapacity: starship.cargo_capacity,
     };
   };
 
   _transformPerson = (person) => {
     return {
       id: this._extractId(person),
-      personName: person.name,
+      name: person.name,
       gender: person.gender,
       birthYear: person.birth_year,
       eyeColor: person.eye_color,

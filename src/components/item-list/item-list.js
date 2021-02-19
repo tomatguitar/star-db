@@ -7,22 +7,25 @@ import './item-list.css';
 export default class ItemList extends Component {
   constructor(props) {
     super(props);
-    this.swapi = new SwapiService();
     this.state = {
-      peopleList: null,
+      itemList: null,
     };
   }
 
   componentDidMount() {
-    this.swapi.getAllPeople().then((people) => {
+    const { getData } = this.props;
+
+    getData().then((people) => {
       this.setState({
-        peopleList: people,
+        itemList: people,
       });
     });
   }
 
   renderItems = (arr) => {
-    return arr.map(({ id, personName }) => {
+    return arr.map((item) => {
+      const { id } = item;
+      const label = this.props.renderItem(item);
       return (
         <li
           className="list-group-item"
@@ -31,19 +34,19 @@ export default class ItemList extends Component {
             this.props.onItemSelected(id);
           }}
         >
-          {personName}
+          {label}
         </li>
       );
     });
   };
 
   render() {
-    const { peopleList } = this.state;
+    const { itemList } = this.state;
 
-    if (!peopleList) {
+    if (!itemList) {
       return <Spinner />;
     }
-    const items = this.renderItems(peopleList);
+    const items = this.renderItems(itemList);
     return <ul className="item-list list-group">{items}</ul>;
   }
 }

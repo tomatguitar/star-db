@@ -14,13 +14,15 @@ class RandomPlanet extends Component {
       loading: true,
       error: false,
     };
-    // this.interval = setInterval(() => this.updatePlanet(), 2500);
-    // clearInterval(this.interval);
   }
 
   componentDidMount() {
     this.updatePlanet();
     // this.interval = setInterval(() => this.updatePlanet(), 2500);
+  }
+
+  componentWillUnmount() {
+    // clearInterval(this.interval);
   }
 
   onPlanetLoaded = (planet) => {
@@ -63,17 +65,17 @@ class RandomPlanet extends Component {
 }
 
 const PlanetView = ({ planet }) => {
-  const { id, planetName, population, rotationPeriod, diameter } = planet;
+  const { id, name, population, rotationPeriod, diameter } = planet;
 
   return (
     <React.Fragment>
       <img
         className="planet-image"
         src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
-        alt={planetName}
+        alt={name}
       />
       <div>
-        <h4>{planetName}</h4>
+        <h4>{name}</h4>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
             <span className="term">Population</span>
