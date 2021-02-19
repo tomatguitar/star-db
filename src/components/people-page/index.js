@@ -1,3 +1,3 @@
-import ErrorIndicator from './error-indicator';
+import PeoplePage from './people-page';
 
-export default ErrorIndicator;
+export default PeoplePage;
